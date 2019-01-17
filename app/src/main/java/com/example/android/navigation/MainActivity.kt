@@ -20,6 +20,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.android.navigation.databinding.ActivityMainBinding
@@ -34,6 +36,15 @@ class MainActivity : AppCompatActivity() {
 
         val navController = this.findNavController(R.id.myNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+
+        navController.addOnNavigatedListener { nc: NavController, nd: NavDestination ->
+            if(nd.id == nc.graph.startDestination){
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            }else{
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
+        }
+
         NavigationUI.setupWithNavController(binding.navView, navController)
     }
 
@@ -42,13 +53,4 @@ class MainActivity : AppCompatActivity() {
         return NavigationUI.navigateUp(drawerLayout, navController)
     }
 
-    // TODO (01) Create the new TitleFragment
-    // Select File->New->Fragment->Fragment (Blank)
-
-    // TODO (02) Clean up the new TitleFragment
-    // In our new TitleFragment
-
-    // TODO (03) Use DataBindingUtil.inflate to inflate and return the titleFragment in onCreateView
-    // In our new TitleFragment
-    // R.layout.fragment_title
 }
